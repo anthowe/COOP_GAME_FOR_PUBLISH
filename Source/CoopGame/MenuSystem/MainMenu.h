@@ -3,24 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
-#include "MenuInterface.h"
+#include "MenuWidget.h"
 #include "MainMenu.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class COOPGAME_API UMainMenu : public UUserWidget
+class COOPGAME_API UMainMenu : public UMenuWidget
 {
 	GENERATED_BODY()
 
-public:
-
-	void SetMenuInterface(IMenuInterface* MenuInterface);
-
-	void SetUp();
-	void Teardown();
 
 protected:
 	virtual bool Initialize() override;
@@ -33,7 +26,10 @@ private:
 	class UButton* JoinButton;
 
 	UPROPERTY(meta = (BindWidget))
-	class UButton* BackButton;
+	class UButton* CancelJoinMenuButton;
+
+	UPROPERTY(meta = (BindWidget))
+		class UButton* ConfirmJoinMenuButton;
 
 	UPROPERTY(meta = (BindWidget))
 	class UWidgetSwitcher* MenuSwitcher;
@@ -43,17 +39,20 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	class UWidget* MainMenu;
+
+	UPROPERTY(meta = (BindWidget))
+	class UEditableTextBox* IPAddressField;
 	
 	UFUNCTION()
 	void HostServer();
+
+	UFUNCTION()
+	void JoinServer();
 
 	UFUNCTION()
 	void OpenJoinMenu();
 
 	UFUNCTION()
 	void OpenMainMenu();
-
-	IMenuInterface* MenuInterface;
-	
 
 };

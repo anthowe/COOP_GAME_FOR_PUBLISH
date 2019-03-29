@@ -24,6 +24,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void LoadMenu();
+
+	UFUNCTION(BlueprintCallable)
+	void LoadQuitMenu();
 	
 	UFUNCTION(Exec)
 	void Host();
@@ -36,6 +39,7 @@ public:
 private:
 
 	TSubclassOf<class UUserWidget>MenuClass;
+	TSubclassOf<class UUserWidget>QuitMenuClass;
 
 	class UMainMenu* Menu;
 	

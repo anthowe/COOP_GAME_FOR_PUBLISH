@@ -2,6 +2,7 @@
 
 #include "SMyGameInstance.h"
 #include "MenuSystem/MainMenu.h"
+#include "MenuSystem/MenuWidget.h"
 
 #include "Engine/Engine.h"
 #include "GameFramework/PlayerController.h"
@@ -17,6 +18,12 @@ USMyGameInstance::USMyGameInstance(const FObjectInitializer & ObjectInitializer)
 	if (!ensure(MenuBPClass.Class != nullptr)) return;
 	
 	MenuClass = MenuBPClass.Class;
+
+	ConstructorHelpers::FClassFinder<UUserWidget> QuitMenuBPClass(TEXT("/Game/MenuSystem/WBP_QuitMenu"));
+
+	if (!ensure(QuitMenuBPClass.Class != nullptr)) return;
+
+	QuitMenuClass = QuitMenuBPClass.Class;
 }
 
 
@@ -39,6 +46,19 @@ void USMyGameInstance::LoadMenu()
 	
 }
 
+void USMyGameInstance::LoadQuitMenu()
+{
+	if (!ensure(QuitMenuClass != nullptr)) return;
+
+	UMenuWidget* Menu = CreateWidget<UMenuWidget>(this, QuitMenuClass);
+
+	if (!ensure(Menu != nullptr)) return;
+
+	Menu->SetUp();
+
+	Menu->SetMenuInterface(this);
+}
+
 void USMyGameInstance::Host()
 {
 	if (Menu != nullptr)
@@ -59,6 +79,11 @@ void USMyGameInstance::Host()
 
 void USMyGameInstance::Join(const FString& Address)
 {
+	if (Menu != nullptr)
+	{
+		Menu->Teardown();
+	}
+
 	UEngine* Engine = GetEngine();
 	if (!ensure(Engine != nullptr)) return;
 
