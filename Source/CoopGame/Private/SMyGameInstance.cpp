@@ -13,17 +13,17 @@
 USMyGameInstance::USMyGameInstance(const FObjectInitializer & ObjectInitializer)
 {
 	
-	ConstructorHelpers::FClassFinder<UUserWidget> MenuBPClass(TEXT("/Game/MenuSystem/WBP_MainMenu1"));
+	ConstructorHelpers::FClassFinder<UUserWidget> MenuBPClass(TEXT("/Game/MenuSystem/WBP_MainMenu"));
 
 	if (!ensure(MenuBPClass.Class != nullptr)) return;
 	
 	MenuClass = MenuBPClass.Class;
 
-	ConstructorHelpers::FClassFinder<UUserWidget> QuitMenuBPClass(TEXT("/Game/MenuSystem/WBP_QuitMenu"));
+	ConstructorHelpers::FClassFinder<UUserWidget>InGameMenuBPClass(TEXT("/Game/MenuSystem/WBP_InGameMenu"));
 
-	if (!ensure(QuitMenuBPClass.Class != nullptr)) return;
+	if (!ensure(InGameMenuBPClass.Class != nullptr)) return;
 
-	QuitMenuClass = QuitMenuBPClass.Class;
+	InGameMenuClass = InGameMenuBPClass.Class;
 }
 
 
@@ -46,11 +46,11 @@ void USMyGameInstance::LoadMenu()
 	
 }
 
-void USMyGameInstance::LoadQuitMenu()
+void USMyGameInstance::LoadInGameMenu()
 {
-	if (!ensure(QuitMenuClass != nullptr)) return;
+	if (!ensure(InGameMenuClass != nullptr)) return;
 
-	UMenuWidget* Menu = CreateWidget<UMenuWidget>(this, QuitMenuClass);
+	UMenuWidget* Menu = CreateWidget<UMenuWidget>(this, InGameMenuClass);
 
 	if (!ensure(Menu != nullptr)) return;
 
@@ -94,5 +94,13 @@ void USMyGameInstance::Join(const FString& Address)
 
 	PlayerController->ClientTravel(Address, ETravelType::TRAVEL_Absolute);
 
+}
+
+void USMyGameInstance::LoadMainMenu()
+{
+	APlayerController* PlayerController = GetFirstLocalPlayerController();
+	if (!ensure(PlayerController != nullptr)) return;
+
+	PlayerController->ClientTravel("/Game/MenuSystem/MainMenu", ETravelType::TRAVEL_Absolute);
 }
 

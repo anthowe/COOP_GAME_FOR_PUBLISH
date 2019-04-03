@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "../MenuSystem/MenuWidget.h"
 #include "SGameMode.generated.h"
 
 enum class EWaveState : uint8;
@@ -20,6 +21,7 @@ class COOPGAME_API ASGameMode : public AGameModeBase
 	
 protected:
 
+	
 	FTimerHandle TimerHandle_BotSpawner;
 
 	FTimerHandle TimerHandle_NextWaveStart;
@@ -32,6 +34,7 @@ protected:
 	float TimeBetweenWaves;
 
 protected:
+
 
 	UFUNCTION(BlueprintImplementableEvent, Category="GameMode")
 	void SpawnNewBot();
@@ -54,6 +57,7 @@ protected:
 
 	void RestartDeadPlayers();
 	
+
 public:
 
 	ASGameMode();
@@ -65,4 +69,5 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "GameMode")
 	FOnActorKilled OnActorKilled;
 	
+
 };

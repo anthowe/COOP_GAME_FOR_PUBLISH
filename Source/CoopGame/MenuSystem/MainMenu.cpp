@@ -5,6 +5,7 @@
 #include "Components/Button.h"
 #include "Components/WidgetSwitcher.h"
 #include "Components/EditableTextBox.h"
+#include "GameFramework/PlayerController.h"
 
 bool UMainMenu::Initialize()
 {
@@ -23,7 +24,9 @@ bool UMainMenu::Initialize()
 	if (!ensure(ConfirmJoinMenuButton != nullptr))return false;
 	ConfirmJoinMenuButton->OnClicked.AddDynamic(this, &UMainMenu::JoinServer);
 
-
+	if (!ensure(QuitButton != nullptr))return false;
+	QuitButton->OnClicked.AddDynamic(this, &UMainMenu::QuitGame);
+	
 
 	return true;
 }
@@ -61,5 +64,20 @@ void  UMainMenu::OpenMainMenu()
 	MenuSwitcher->SetActiveWidget(MainMenu);
 
 }
+
+void UMainMenu::QuitGame()
+{
+	
+	UWorld* World = GetWorld();
+	if (!ensure(World != nullptr)) return;
+
+	APlayerController* PlayerController = World->GetFirstPlayerController();
+	if (!ensure(PlayerController != nullptr)) return;
+
+	PlayerController->ConsoleCommand("quit");
+
+}
+
+
 
 

@@ -4,7 +4,12 @@
 #include "SHealthComponent.h"
 #include "SGameState.h"
 #include "SPlayerState.h"
+#include "SMyGameInstance.h"
+
+#include "UObject/ConstructorHelpers.h"
 #include "TimerManager.h"
+
+
 
 
 ASGameMode::ASGameMode()
@@ -17,6 +22,7 @@ ASGameMode::ASGameMode()
 
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.TickInterval = 1.0f;
+	
 	
 }
 
@@ -174,3 +180,4 @@ void ASGameMode::SpawnBotTimerElapsed()
 		EndWave();
 	}
 }
+
